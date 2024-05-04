@@ -1,2 +1,3 @@
 # cifar10
-use cnn to model a cifar10 dataset,but overfitting
+use CNN to fit the dataset named cifar10,but overfitting
+can somebody give me some advice?
