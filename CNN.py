@@ -39,6 +39,7 @@ class CNN(nn.Module):
             nn.BatchNorm2d(512),
             nn.ReLU(),
             nn.MaxPool2d(kernel_size=2, stride=2),
+            nn.AvgPool2d(kernel_size=1, stride=1)
             nn.Flatten(),
             nn.Linear(in_features=512, out_features=10)
         )
