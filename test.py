@@ -1,16 +1,3 @@
-"""
-
-修改了什么
-4.27 train acc似乎能一直上升，test acc稳定在73左右
-
-
-1.数据初始化
-2.加深卷积层，增加relu层
-3.增加了一点dropout
-4.增加了动量和权值衰减
-5.卷积核大小为6
-
-"""
 import numpy as np
 from collections import OrderedDict
 
@@ -32,10 +19,10 @@ from backbone import ResNet50
 train_dataset = CIFAR10('./CIFAR10', train=True, download=False, transform=transforms.transforms.Compose(
     [transforms.ToTensor(),
      transforms.Normalize(mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225]),
-     # transforms.Normalize(mean=0.5, std=0.5),
-     # transforms.RandomHorizontalFlip(),  # 随机水平镜像
-     # transforms.RandomErasing(scale=(0.04, 0.2), ratio=(0.5, 2)),  # 随机遮挡
-     # transforms.RandomCrop(32, padding=4),
+     transforms.Normalize(mean=0.5, std=0.5),
+     transforms.RandomHorizontalFlip(),  # 随机水平镜像
+     transforms.RandomErasing(scale=(0.04, 0.2), ratio=(0.5, 2)),  # 随机遮挡
+     transforms.RandomCrop(32, padding=4),
      ]))
 test_dataset = CIFAR10('./CIFAR10', train=False, download=False, transform=transforms.transforms.Compose(
     [transforms.ToTensor(),
@@ -43,54 +30,6 @@ test_dataset = CIFAR10('./CIFAR10', train=False, download=False, transform=trans
 
 train_loader = DataLoader(train_dataset, batch_size=128, shuffle=True)
 test_loader = DataLoader(test_dataset, batch_size=32, shuffle=True)
-
-
-# class CNN(nn.Module):
-#     def __init__(self):
-#         super(CNN, self).__init__()
-#         self.dropout = 0.0
-#         self.model = nn.Sequential(
-#             nn.Conv2d(in_channels=3, out_channels=32, kernel_size=6, stride=1, padding=3),
-#             nn.ReLU(),
-#             nn.MaxPool2d(kernel_size=2),
-#             nn.Conv2d(in_channels=32, out_channels=32, kernel_size=6, stride=1, padding=3),
-#             nn.ReLU(),
-#             nn.MaxPool2d(kernel_size=2),
-#             nn.Conv2d(in_channels=32, out_channels=32, kernel_size=6, stride=1, padding=3),
-#             nn.ReLU(),
-#             nn.MaxPool2d(kernel_size=2),
-#             nn.Conv2d(in_channels=32, out_channels=32, kernel_size=6, stride=1, padding=3),
-#             nn.ReLU(),
-#             nn.MaxPool2d(kernel_size=2),
-#             nn.Conv2d(in_channels=32, out_channels=64, kernel_size=6, stride=1, padding=3),
-#             nn.ReLU(),
-#             nn.MaxPool2d(kernel_size=2),
-#             nn.Flatten(),
-#             nn.Linear(in_features=64, out_features=10))
-#         # self.model = nn.Sequential(
-#         #     nn.Conv2d(in_channels=3, out_channels=32, kernel_size=5, stride=1, padding=2),
-#         #     # nn.ReLU(),
-#         #     nn.MaxPool2d(kernel_size=2),
-#         #     nn.Conv2d(in_channels=32, out_channels=32, kernel_size=5, stride=1, padding=2),
-#         #     # nn.ReLU(),
-#         #     nn.MaxPool2d(kernel_size=2),
-#         #     nn.Conv2d(in_channels=32, out_channels=64, kernel_size=5, stride=1, padding=2),
-#         #     # nn.ReLU(),
-#         #     nn.MaxPool2d(kernel_size=2),
-#         #     # nn.Conv2d(in_channels=32, out_channels=32, kernel_size=5, stride=1, padding=2),
-#         #     # # nn.ReLU(),
-#         #     # nn.MaxPool2d(kernel_size=2),
-#         #     # nn.Conv2d(in_channels=32, out_channels=64, kernel_size=5, stride=1, padding=2),
-#         #     # # nn.ReLU(),
-#         #     # nn.MaxPool2d(kernel_size=2),
-#         #     nn.Flatten(),
-#         #     nn.Linear(in_features=64*4*4, out_features=10))
-#
-#     def forward(self, x):
-#         if self.training:
-#             x = F.dropout(x, self.dropout)
-#         x = self.model(x)
-#         return x
 
 
 device = torch.device("cuda:0")
